@@ -1,32 +1,37 @@
 <template>
 	<view class="page">
-		<swiper :indicator-dots="true" :autoplay="true" class='carousel'>
-			<swiper-item>
-				<image src="../../static/carousel/batmanvssuperman.png" class='carousel'></image>
-			</swiper-item>
-			<swiper-item>
-				<image src="../../static/carousel/spiderman.png" class='carousel'></image>
-			</swiper-item>
+		<swiper :indicator-dots="true" :autoplay="true" class="carousel">
+			<swiper-item v-for="img in swiperImages" :key="img.id"><image :src="img.image" class="carousel"></image></swiper-item>
 		</swiper>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
+export default {
+	data() {
+		return {
+			swiperImages: []
+		};
+	},
+	onLoad() {
+		uni.request({
+			url: 'https://www.imovietrailer.com/superhero/index/carousel/list?qq=806212833',
+			method: 'POST',
+			success: res => {
+				if(res.data.status==200){
+					const movieData = res.data.data;
+					this.swiperImages = movieData;
+				}
+			},
+			fail: err => {
+				console.log(err);
 			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
-	}
+		});
+	},
+	methods: {}
+};
 </script>
 
 <style>
-@import url("./index.css");
+@import url('./index.css');
 </style>
