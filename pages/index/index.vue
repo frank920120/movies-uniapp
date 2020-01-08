@@ -8,9 +8,38 @@
 				<image src="../../static/icos/hot.png" class="hot-ico"></image>
 				<view class="hot-title">
 					热门电影
-				</view>
+				</view>	
 			</view>
+			<scroll-view scroll-x="true" @scrolltoupper="scrollLeft" @scrolltolower="scrollRight" class='page-block hot'>
+				<view class="single-poster">
+					<view class="poster-wrapper">
+						<image src="../../static/poster/civilwar.jpg" class="poster"></image>
+						<view class="movie-name">
+							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
+						</view>
+						<view class=""></view>
+					</view>
+				</view>
+				<view class="single-poster">
+					<view class="poster-wrapper">
+						<image src="../../static/poster/civilwar.jpg" class="poster"></image>
+						<view class="movie-name">
+							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
+						</view>
+						<view class=""></view>
+					</view>
+				</view>
+				<view class="single-poster">
+					<view class="poster-wrapper">
+						<image src="../../static/poster/civilwar.jpg" class="poster"></image>
+						<view class="movie-name">
+							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
+						</view>
+						<view class=""></view>
+					</view>
+				</view>
 			
+			</scroll-view>
 			
 		</view>
 	</view>
@@ -41,7 +70,14 @@ export default {
 			}
 		});
 	},
-	methods: {}
+	methods: {
+		scrollLeft:function(e){
+			console.log(e)
+		},
+		scrollRight:function(e){
+			console.log(e)
+		}
+	}
 };
 </script>
 
