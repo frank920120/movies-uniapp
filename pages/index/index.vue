@@ -1,9 +1,13 @@
 <template>
-	<view class="content">
-		
-		<view >
-			this is home
-		</view>
+	<view class="page">
+		<swiper :indicator-dots="true" :autoplay="true" class='carousel'>
+			<swiper-item>
+				<image src="../../static/carousel/batmanvssuperman.png"class='carousel'></image>
+			</swiper-item>
+			<swiper-item>
+				<image src="../../static/carousel/spiderman.png" class='carousel'></image>
+			</swiper-item>
+		</swiper>
 	</view>
 </template>
 
@@ -24,5 +28,5 @@
 </script>
 
 <style>
-
+@import url("./index.css");
 </style>
