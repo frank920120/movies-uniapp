@@ -7,15 +7,18 @@
 </template>
 
 <script>
+import common from '../../common/helper.js';
 export default {
+
 	data() {
 		return {
 			swiperImages: []
 		};
 	},
 	onLoad() {
+	 const serverUrl = common.serverUrl
 		uni.request({
-			url: 'https://www.imovietrailer.com/superhero/index/carousel/list?qq=806212833',
+			url: serverUrl+'/index/carousel/list?qq=806212833',
 			method: 'POST',
 			success: res => {
 				if(res.data.status==200){
