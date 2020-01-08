@@ -17,7 +17,9 @@
 						<view class="movie-name">
 							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
 						</view>
-						<view class=""></view>
+						<view class="">
+							
+						</view>
 					</view>
 				</view>
 				<view class="single-poster">
@@ -35,7 +37,14 @@
 						<view class="movie-name">
 							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
 						</view>
-						<view class=""></view>
+						<view class="movie-score-wrapper">
+							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
+							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
+							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
+							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
+							<image src="../../static/icos/star-gray.png" class="star-icon"></image>
+							<view class="movie-score">9.1</view>
+						</view>
 					</view>
 				</view>
 			
