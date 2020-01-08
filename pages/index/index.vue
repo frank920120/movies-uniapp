@@ -10,40 +10,18 @@
 					热门电影
 				</view>	
 			</view>
-			<scroll-view scroll-x="true" @scrolltoupper="scrollLeft" @scrolltolower="scrollRight" class='page-block hot'>
-				<view class="single-poster">
+			<scroll-view scroll-x="true"  class='page-block hot'>
+				<view class="single-poster" v-for='poster in moviePosters' :key="poster.id">
 					<view class="poster-wrapper">
-						<image src="../../static/poster/civilwar.jpg" class="poster"></image>
+						<image :src="poster.cover" class="poster"></image>
 						<view class="movie-name">
-							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
-						</view>
-						<view class="">
-							
-						</view>
-					</view>
-				</view>
-				<view class="single-poster">
-					<view class="poster-wrapper">
-						<image src="../../static/poster/civilwar.jpg" class="poster"></image>
-						<view class="movie-name">
-							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
-						</view>
-						<view class=""></view>
-					</view>
-				</view>
-				<view class="single-poster">
-					<view class="poster-wrapper">
-						<image src="../../static/poster/civilwar.jpg" class="poster"></image>
-						<view class="movie-name">
-							褊狭褊狭褊狭褊狭褊狭褊狭褊狭
+							{{poster.name}}
 						</view>
 						<view class="movie-score-wrapper">
-							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
-							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
-							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
+							<!-- <uni-rate value="poster.score" size="15" class='rate' disabled="true"></uni-rate> -->
 							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
 							<image src="../../static/icos/star-gray.png" class="star-icon"></image>
-							<view class="movie-score">9.1</view>
+							<view class="movie-score">{{poster.score}}</view>
 						</view>
 					</view>
 				</view>
@@ -56,15 +34,21 @@
 
 <script>
 import common from '../../common/helper.js';
+// import uniRate from "@/components/uni-rate/uni-rate.vue"
 export default {
 
 	data() {
 		return {
-			swiperImages: []
+			swiperImages: [],
+			moviePosters:[],
 		};
+	},
+	components:{
+		// uniRate
 	},
 	onLoad() {
 	 const serverUrl = common.serverUrl
+	 //swiper api
 		uni.request({
 			url: serverUrl+'/index/carousel/list?qq=806212833',
 			method: 'POST',
@@ -78,14 +62,22 @@ export default {
 				console.log(err);
 			}
 		});
+		//movie poster api
+		uni.request({
+			url:serverUrl+'/index/movie/hot?type=superhero&qq=806212833',
+			method:'POST',
+			success:res=>{
+				if(res.data.status==200){
+					const moviePosters = res.data.data;
+					this.moviePosters = moviePosters;
+					this.rate = moviePosters.score
+				}
+			}
+		})
+		
 	},
 	methods: {
-		scrollLeft:function(e){
-			console.log(e)
-		},
-		scrollRight:function(e){
-			console.log(e)
-		}
+		
 	}
 };
 </script>
