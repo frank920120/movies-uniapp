@@ -3,6 +3,16 @@
 		<swiper :indicator-dots="true" :autoplay="true" class="carousel">
 			<swiper-item v-for="img in swiperImages" :key="img.id"><image :src="img.image" class="carousel"></image></swiper-item>
 		</swiper>
+		<view class='page-block super-hot'>
+			<view class="hot-title-wrapper">
+				<image src="../../static/icos/hot.png" class="hot-ico"></image>
+				<view class="hot-title">
+					热门电影
+				</view>
+			</view>
+			
+			
+		</view>
 	</view>
 </template>
 
