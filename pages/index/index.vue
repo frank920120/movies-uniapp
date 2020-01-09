@@ -17,12 +17,8 @@
 						<view class="movie-name">
 							{{poster.name}}
 						</view>
-						<view class="movie-score-wrapper">
+							<Rate :innerScore='poster.score' showNum=1></Rate>
 							<!-- <uni-rate value="poster.score" size="15" class='rate' disabled="true"></uni-rate> -->
-							<image src="../../static/icos/star-yellow.png" class="star-icon"></image>
-							<image src="../../static/icos/star-gray.png" class="star-icon"></image>
-							<view class="movie-score">{{poster.score}}</view>
-						</view>
 					</view>
 				</view>
 			
@@ -35,6 +31,7 @@
 <script>
 import common from '../../common/helper.js';
 // import uniRate from "@/components/uni-rate/uni-rate.vue"
+import Rate from '../../components/Rate/Rate.vue'
 export default {
 
 	data() {
@@ -45,6 +42,7 @@ export default {
 	},
 	components:{
 		// uniRate
+		Rate
 	},
 	onLoad() {
 	 const serverUrl = common.serverUrl
@@ -71,6 +69,7 @@ export default {
 					const moviePosters = res.data.data;
 					this.moviePosters = moviePosters;
 					this.rate = moviePosters.score
+					console.log(moviePosters)
 				}
 			}
 		})
