@@ -5,6 +5,7 @@
 				<image :src="img.image" class="carousel"></image>
 			</swiper-item>
 		</swiper>
+	<!-- 	//hot movies -->
 		<view class="page-block super-hot">
 			<view class="hot-title-wrapper">
 				<image src="../../static/icos/hot.png" class="hot-ico"></image>
@@ -21,14 +22,48 @@
 				</view>
 			</scroll-view>
 		</view>
+		<!-- //trailer -->
 		<view class="page-block trailer-hot">
 			<view class="hot-title-wrapper">
 				<image src="../../static/icos/interest.png" class="hot-ico"></image>
 				<view class="hot-title">热门预告</view>
 			</view>
-			<view class="video-container page-block">
-				<video :id='video.id' v-for="video in trailers" :key="video.id" :src="video.trailer" controls :poster="video.poster" @play='play'></video>
+		</view>
+		<view class="video-container page-block">
+			<video
+			 :id='video.id'
+			 v-for="video in trailers" 
+			 :key="video.id" 
+			 :src="video.trailer" 
+			 controls 
+			 :poster="video.poster" 
+			 @play='play'></video>
+		</view>
+		<!-- //guess what ppl like -->
+		<view class="page-block trailer-hot">
+			<view class="hot-title-wrapper">
+				<image src="../../static/icos/guess-u-like.png" class="hot-ico"></image>
+				<view class="hot-title">猜你喜欢</view>
 			</view>
+		</view>
+		<view class="page-block guess-u-like">
+			<view class="single-like-movie" v-for='like in ulike' :key='like.id'>
+					<image :src="like.cover" class='like-movie'></image>
+					<view class="movie-desc">
+							<view class="movie-title">{{like.name}}</view>
+							<Rate :innerScore="like.score" showNum="0"></Rate>
+							<view class="movie-info">
+								{{like.basicInfo}}
+							</view>
+							<view class="movie-info">
+								{{like.releaseDate}}
+							</view>
+					</view>
+					<view class="oper" @tap='praiseHandler'>
+						<image src="../../static/icos/praise.png" class="praise-icon" ></image>
+						<view class="praise-me">点赞一下</view>
+					</view>
+			</view> 
 		</view>
 	</view>
 </template>
@@ -41,7 +76,8 @@
 			return {
 				swiperImages: [],
 				moviePosters: [],
-				trailers: []
+				trailers: [],
+				ulike:[]
 			}
 		},
 		components: {
@@ -84,7 +120,19 @@
 					if (res.data.status == 200) {
 						const trailers = res.data.data
 						this.trailers = trailers
-						console.log(trailers)
+
+					}
+				}
+			})
+			//guess u like api 
+			uni.request({
+				url: serverUrl + '/index/guessULike?qq=806212833',
+				method: 'POST',
+				success: res => {
+					if (res.data.status == 200) {
+						const ulike = res.data.data
+						this.ulike = ulike
+			
 					}
 				}
 			})
@@ -93,6 +141,9 @@
 			play:function(e){
 			let currentVideo = uni.createVideoContext(e.currentTarget.id);
 			currentVideo.requestFullScreen();
+			},
+			praiseHandler:function(e){
+				console.log('click')
 			}
 		}
 	}
