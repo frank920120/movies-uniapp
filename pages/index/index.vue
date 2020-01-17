@@ -47,7 +47,7 @@
 			</view>
 		</view>
 		<view class="page-block guess-u-like">
-			<view class="single-like-movie" v-for='like in ulike' :key='like.id'>
+			<view class="single-like-movie" v-for='(like,index) in ulike' :key='like.id'>
 					<image :src="like.cover" class='like-movie'></image>
 					<view class="movie-desc">
 							<view class="movie-title">{{like.name}}</view>
@@ -59,10 +59,10 @@
 								{{like.releaseDate}}
 							</view>
 					</view>
-					<view class="oper" @tap='praiseHandler'>
+					<view class="oper" @tap='praiseHandler($event,index)'>
 						<image src="../../static/icos/praise.png" class="praise-icon" ></image>
 						<view class="praise-me">点赞一下</view>
-						<view class="praise-me animation-opacity" :animation="animationData">+1</view>
+						<view class="praise-me animation-opacity" :animation="animationDataArray[index]">+1</view>
 					</view>
 			</view> 
 		</view>
@@ -79,9 +79,10 @@
 				moviePosters: [],
 				trailers: [],
 				ulike:[],
-				animationData:{
-					
-				}
+				animationData:{},
+				animationDataArray:[
+					{},{},{},{},{}
+				]
 			}
 		},
 		components: {
@@ -89,13 +90,11 @@
 			Rate
 		},
 		onUnload(){
-			this.animationData = {}
+			animationData = {}
 		},
 		onLoad() {
 			const serverUrl = common.serverUrl;
-			this.animation = uni.createAnimation({
-				
-			})
+			this.animation = uni.createAnimation();
 			//swiper api
 			uni.request({
 				url: serverUrl + '/index/carousel/list?qq=806212833',
@@ -150,19 +149,21 @@
 		methods: {
 			play:function(e){
 			let currentVideo = uni.createVideoContext(e.currentTarget.id);
-			console.log(currentVideo)
 			currentVideo.requestFullScreen();
 			},
-			praiseHandler:function(e){
+			praiseHandler:function(e,index){
+			
+				// const index = e.currentTarget.dataset.index;
 				this.animation.translateY(-60).opacity(1).step({
 					duration:400
 				});
-				this.animationData = this.animation.export();
+				this.animationData = this.animation
+				this.animationDataArray[index] = this.animationData.export();
 				setTimeout(()=>{
 					this.animation.translateY(0).opacity(0).step({
 					duration:0
 					})
-					this.animationData = this.animation.export();
+					this.animationDataArray[index] =this.animationData.export();
 				},500)
 			}
 		}
