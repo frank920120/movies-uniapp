@@ -62,6 +62,7 @@
 					<view class="oper" @tap='praiseHandler'>
 						<image src="../../static/icos/praise.png" class="praise-icon" ></image>
 						<view class="praise-me">点赞一下</view>
+						<view class="praise-me animation-opacity" :animation="animationData">+1</view>
 					</view>
 			</view> 
 		</view>
@@ -77,15 +78,24 @@
 				swiperImages: [],
 				moviePosters: [],
 				trailers: [],
-				ulike:[]
+				ulike:[],
+				animationData:{
+					
+				}
 			}
 		},
 		components: {
 			// uniRate
 			Rate
 		},
+		onUnload(){
+			this.animationData = {}
+		},
 		onLoad() {
-			const serverUrl = common.serverUrl
+			const serverUrl = common.serverUrl;
+			this.animation = uni.createAnimation({
+				
+			})
 			//swiper api
 			uni.request({
 				url: serverUrl + '/index/carousel/list?qq=806212833',
@@ -140,10 +150,20 @@
 		methods: {
 			play:function(e){
 			let currentVideo = uni.createVideoContext(e.currentTarget.id);
+			console.log(currentVideo)
 			currentVideo.requestFullScreen();
 			},
 			praiseHandler:function(e){
-				console.log('click')
+				this.animation.translateY(-60).opacity(1).step({
+					duration:400
+				});
+				this.animationData = this.animation.export();
+				setTimeout(()=>{
+					this.animation.translateY(0).opacity(0).step({
+					duration:0
+					})
+					this.animationData = this.animation.export();
+				},500)
 			}
 		}
 	}
