@@ -99,6 +99,9 @@
 				{},{},{},{},{}
 			]
 		},
+		onPullDownRefresh(){
+			this.refresh();
+		},
 		onLoad() {
 			const serverUrl = common.serverUrl;
 			// #ifdef APP-PLUS || MP-WEIXIN
@@ -143,17 +146,7 @@
 				}
 			})
 			//guess u like api 
-			uni.request({
-				url: serverUrl + '/index/guessULike?qq=806212833',
-				method: 'POST',
-				success: res => {
-					if (res.data.status == 200) {
-						const ulike = res.data.data
-						this.ulike = ulike
-			
-					}
-				}
-			})
+			this.refresh();
 		},
 		methods: {
 			play:function(e){
@@ -177,6 +170,21 @@
 				},500)
 			//#endif
 		
+		},
+		refresh(){
+			const serverUrl = common.serverUrl;
+			uni.request({
+				url: serverUrl + '/index/guessULike?qq=806212833',
+				method: 'POST',
+				success: res => {
+					if (res.data.status == 200) {
+						const ulike = res.data.data
+						this.ulike = ulike
+			
+					}
+				}
+			})
+		}
 		}
 	
 	}
