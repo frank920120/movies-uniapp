@@ -59,11 +59,15 @@
 								{{like.releaseDate}}
 							</view>
 					</view>
+			
 					<view class="oper" @tap='praiseHandler($event,index)'>
 						<image src="../../static/icos/praise.png" class="praise-icon" ></image>
 						<view class="praise-me">点赞一下</view>
 						<view class="praise-me animation-opacity" :animation="animationDataArray[index]">+1</view>
 					</view>
+				
+				
+
 			</view> 
 		</view>
 	</view>
@@ -90,11 +94,16 @@
 			Rate
 		},
 		onUnload(){
-			animationData = {}
+			this.animationData = {}
+			this.animationDataArray=[
+				{},{},{},{},{}
+			]
 		},
 		onLoad() {
 			const serverUrl = common.serverUrl;
-			this.animation = uni.createAnimation();
+			// #ifdef APP-PLUS || MP-WEIXIN
+					this.animation = uni.createAnimation();
+			// #endif
 			//swiper api
 			uni.request({
 				url: serverUrl + '/index/carousel/list?qq=806212833',
@@ -154,6 +163,7 @@
 			praiseHandler:function(e,index){
 			
 				// const index = e.currentTarget.dataset.index;
+				// #ifdef APP-PLUS || MP-WEIXIN
 				this.animation.translateY(-60).opacity(1).step({
 					duration:400
 				});
@@ -165,8 +175,10 @@
 					})
 					this.animationDataArray[index] =this.animationData.export();
 				},500)
-			}
+			//#endif
+		
 		}
+	
 	}
 </script>
 <style>
