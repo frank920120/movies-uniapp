@@ -172,6 +172,9 @@
 		
 		},
 		refresh(){
+			uni.showLoading({
+				mask:true
+			})
 			const serverUrl = common.serverUrl;
 			uni.request({
 				url: serverUrl + '/index/guessULike?qq=806212833',
@@ -182,6 +185,10 @@
 						this.ulike = ulike
 			
 					}
+				},
+				complete:()=>{
+					uni.hideLoading()
+					uni.stopPullDownRefresh();
 				}
 			})
 		}
