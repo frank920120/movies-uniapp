@@ -58,6 +58,15 @@
 				}
 			})
 		},
+		onReachBottom(){
+			let page  = this.page + 1;
+			let keywords =this.keywords;
+			let totalPages = this.totalPages;
+			if(page>totalPages){
+				return;
+			}
+			this.pagedTrailerList(keywords,page,15)
+		},
 		methods: {
 			pagedTrailerList(keywords,page,pageSize){
 	
