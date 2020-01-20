@@ -2,7 +2,10 @@
 	<view class="page">
 		<swiper :indicator-dots="true" :autoplay="true" class="carousel">
 			<swiper-item v-for="img in swiperImages" :key="img.id">
-				<image :src="img.image" class="carousel"></image>
+					
+					<image :src="img.image" class="carousel"></image>
+				</navigator>
+				
 			</swiper-item>
 		</swiper>
 	<!-- 	//hot movies -->
@@ -14,7 +17,9 @@
 			<scroll-view scroll-x="true" class="page-block hot">
 				<view class="single-poster" v-for="poster in moviePosters" :key="poster.id">
 					<view class="poster-wrapper">
+						<navigator open-type="navigate" :url="'../movie/movie?trailerId='+ poster.id">
 						<image :src="poster.cover" class="poster"></image>
+						</navigator>
 						<view class="movie-name">{{ poster.name }}</view>
 						<Rate :innerScore="poster.score" showNum="1"></Rate>
 						<!-- <uni-rate value="poster.score" size="15" class='rate' disabled="true"></uni-rate> -->
@@ -48,7 +53,9 @@
 		</view>
 		<view class="page-block guess-u-like">
 			<view class="single-like-movie" v-for='(like,index) in ulike' :key='like.id'>
+					<navigator open-type="navigate" :url="'../movie/movie?trailerId='+ like.id">
 					<image :src="like.cover" class='like-movie'></image>
+					</navigator>
 					<view class="movie-desc">
 							<view class="movie-title">{{like.name}}</view>
 							<Rate :innerScore="like.score" showNum="0"></Rate>
