@@ -4,11 +4,18 @@
 			<view class="search-ico-wrapper">
 				<image src="../../static/icos/search.png" class='search-icon'></image>
 			</view>
-			<input type="text" value="" placeholder="搜索预告" maxlength="10" class="search-text" focus @input='searchHandle' />
+			<input 
+			type="text" 
+			confirm-type="search"
+			placeholder="搜索预告" 
+			maxlength="10" 
+			class="search-text" 
+			focus 
+			@confirm='searchHandle' />
 		</view>
 		<view>
 			<view class="movie-lists page-block">
-				<view class='movie-wrapper' v-for='trailer in filteredData' :key='trailer.id'>
+				<view class='movie-wrapper' v-for='trailer in trailersData' :key='trailer.id'>
 					<img  :src="trailer.cover" alt="image" class='poster'  >
 				</view>
 				
@@ -22,11 +29,19 @@
 		data() {
 			return {
 				trailersData: [],
-				filteredData: [],
+				// filteredData: [],
+				page:1,
+				totalPages:1,
+				keywords:''
 			}
 		},
 		onLoad() {
 			const serverUrl = common.serverUrl;
+			uni.showLoading({
+				mask:true,
+				title:'请稍后...'
+			})
+			uni.showNavigationBarLoading();
 			uni.request({
 				url: serverUrl + '/search/list?keywords=&page=&pageSize=&qq=806212833',
 				method: 'POST',
@@ -34,16 +49,49 @@
 					console.log(res.data)
 					if (res.data.status == 200) {
 						this.trailersData = res.data.data.rows
-						this.filteredData = this.trailersData
+						// this.filteredData = this.trailersData
 					}
+				},
+				complete:()=>{
+					uni.hideNavigationBarLoading();
+					uni.hideLoading();
 				}
 			})
 		},
 		methods: {
+			pagedTrailerList(keywords,page,pageSize){
+	
+				const serverUrl = common.serverUrl;
+				uni.showLoading({
+					mask:true,
+					title:'请稍后...'
+				})
+				uni.showNavigationBarLoading();
+				uni.request({
+					url: serverUrl + `/search/list?keywords=${keywords}&page=${page}&pageSize=${pageSize}&qq=806212833`,
+					method: 'POST',
+					success: res => {
+						console.log(res.data)
+						if (res.data.status == 200) {
+							const tempList = res.data.data.rows;
+							this.trailersData = [...this.trailersData,...tempList]
+							this.totalPages = res.data.data.total;
+							this.page = res.data.data.page;
+						}
+					},
+					complete:()=>{
+						uni.hideNavigationBarLoading();
+						uni.hideLoading();
+					}
+				})
+			},
 			searchHandle: function(e) {
-				const input = e.detail.value.toLowerCase();
-				this.filteredData = this.trailersData.
-				filter(trailer => trailer.name.toLowerCase().includes(input) || trailer.originalName.toLowerCase().includes(input))
+				const value =  e.detail.value;
+				this.keywords = value;
+				this.trailersData = [];
+				this.pagedTrailerList(value,1,15);				
+				// this.filteredData = this.trailersData.
+				// filter(trailer => trailer.name.toLowerCase().includes(this.keywords) || trailer.originalName.toLowerCase().includes(this.keywords))
 			}
 		}
 	}
