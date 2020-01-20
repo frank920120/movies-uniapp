@@ -1,0 +1,46 @@
+.search-icon{
+	width: 40upx;
+	height: 40upx;
+}
+.search-text{
+	font-size: 14px;
+	background-color: #eaeaea;
+	height: 60upx;
+	width: 650upx;
+}
+.search-block{
+	display: flex;
+	padding: 0upx 20upx 20upx 20upx;
+	position: fixed;
+	top: 100;
+	justify-content: center;
+	background-color: #F8F8F8;
+
+}
+
+.search-ico-wrapper{
+	background-color: #eaeaea;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0upx 10upx;
+}
+.poster{
+	width: 200upx;
+	height: 270upx;
+	
+}
+
+.movie-lists{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 100upx 10upx 0upx 10upx;
+	justify-content: center;
+	
+}
+
+.movie-wrapper{
+	display: flex;
+	padding: 10upx 20upx;
+	
+}
