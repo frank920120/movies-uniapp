@@ -50,7 +50,7 @@
 					<view class="actor-role">饰 {{director.actName}}</view>
 				</view>
 				<view class="actor-wrapper" v-for='(actor,index) in actorArray' :key='index'>
-					<image :src="actor.photo" alt='image' class='single-actor'  mode='aspectFill'></image>
+					<image :src="actor.photo" alt='image' class='single-actor'  mode='aspectFill' ></image>
 					<view class="actor-name">{{actor.name}}</view>
 					<view class="actor-role">饰 {{actor.actName}}</view>
 				</view>
@@ -60,7 +60,15 @@
 		<view class="scroll-block">
 			<view class="plots-title">剧照</view>
 			<scroll-view scroll-x="true" class='scroll-list'>
-				<image v-for='(image,index) in plotArray' :src="image" alt='image' class='plot-image' :key='index' mode='aspectFill'></image>
+				<image 
+				v-for='(image,index) in plotArray' 
+				:src="image" 
+				alt='image' 
+				class='plot-image' 
+				:key='index' 
+				mode='aspectFill'
+				@click='previewHandle(index)'
+				></image>
 			</scroll-view>
 		</view>
 	</view>
@@ -146,6 +154,12 @@
 			play: function(e) {
 				let currentVideo = uni.createVideoContext(e.currentTarget.id);
 				currentVideo.requestFullScreen();
+			},
+			previewHandle:function(index){
+				uni.previewImage({
+					urls:this.plotArray,
+					current:this.plotArray[index]
+				})
 			}
 		}
 	}
