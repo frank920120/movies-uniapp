@@ -40,6 +40,23 @@
 			<view class="plots-title">剧情介绍</view>
 			<view class="plots-desc">{{trailerData.plotDesc}}</view>
 		</view>
+		<!-- 演员 -->
+		<view class="scroll-block">
+			<view class="plots-title">演职人员</view>
+			<scroll-view scroll-x="true" class='scroll-list'>
+				<view class="actor-wrapper" v-for='(director,index) in directorArray' :key='index'>
+					<image :src="director.photo" alt='image' class='single-actor'  mode='aspectFill'></image>
+					<view class="actor-name">{{director.name}}</view>
+					<view class="actor-role">饰 {{director.actName}}</view>
+				</view>
+				<view class="actor-wrapper" v-for='(actor,index) in actorArray' :key='index'>
+					<image :src="actor.photo" alt='image' class='single-actor'  mode='aspectFill'></image>
+					<view class="actor-name">{{actor.name}}</view>
+					<view class="actor-role">饰 {{actor.actName}}</view>
+				</view>
+			</scroll-view>
+		</view>
+		<!-- 剧照 -->
 		<view class="scroll-block">
 			<view class="plots-title">剧照</view>
 			<scroll-view scroll-x="true" class='scroll-list'>
@@ -58,8 +75,7 @@
 				isLoading: true,
 				plotArray: [],
 				directorArray: [],
-				actorArray: [],
-				daArray: []
+				actorArray: []
 			}
 		},
 		components: {
@@ -103,7 +119,6 @@
 					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
-					this.daArray = [...this.daArray, this.directorArray]
 				}
 			})
 			//actors
@@ -120,7 +135,6 @@
 					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
-					this.daArray = [...this.daArray, ...this.actorArray]
 				}
 			})
 		},
