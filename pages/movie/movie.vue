@@ -30,7 +30,6 @@
 						<Rate :innerScore='trailerData.score' showNum=0></Rate>
 						<view class="prised-counts">{{trailerData.prisedCounts}} 人点赞</view>
 					</view>
-				
 				</view>
 			</view>
 		</view>
@@ -41,7 +40,12 @@
 			<view class="plots-title">剧情介绍</view>
 			<view class="plots-desc">{{trailerData.plotDesc}}</view>
 		</view>
-		
+		<view class="scroll-block">
+			<view class="plots-title">剧照</view>
+			<scroll-view scroll-x="true" class='scroll-list'>
+				<image v-for='(image,index) in plotArray' :src="image" alt='image' class='plot-image' :key='index' mode='aspectFill'></image>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 <script>
@@ -51,13 +55,14 @@
 		data() {
 			return {
 				trailerData: {},
-				isLoading:true,
-				plotArray:[],
-				directorArray:[],
-				actorArray:[]
+				isLoading: true,
+				plotArray: [],
+				directorArray: [],
+				actorArray: [],
+				daArray: []
 			}
 		},
-		components:{
+		components: {
 			Rate
 		},
 		onLoad(params) {
@@ -98,6 +103,7 @@
 					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
+					this.daArray = [...this.daArray, this.directorArray]
 				}
 			})
 			//actors
@@ -114,6 +120,7 @@
 					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
+					this.daArray = [...this.daArray, ...this.actorArray]
 				}
 			})
 		},
