@@ -82,6 +82,10 @@
 			Rate
 		},
 		onLoad(params) {
+			uni.setNavigationBarColor({
+				frontColor:'#ffffff',
+				backgroundColor:'#000000'
+			})
 			const serverUrl = common.serverUrl;
 			uni.showLoading({
 				mask: true,
