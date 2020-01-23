@@ -15,4 +15,12 @@ export default {
 .page-block{
 	background-color: white;
 }
+
+.line-wrapper{
+	padding: 0upx 20upx;
+}
+.line{
+	height: 1px;
+	background-color: #DBDBDA;
+}
 </style>
