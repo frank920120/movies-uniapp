@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<view class="page" v-if='!isLoading'>
 		<view class='player'>
 			<video :src="trailerData.trailer" :poster='trailerData.poster' controls class='movie' @play='play'></video>
 		</view>
@@ -21,18 +21,44 @@
 				<view class="basic-info ">
 					{{trailerData.releaseDate}}
 				</view>
-				<view class="score-block"></view>
+				<view class="score-block">
+					<view class="big-score">
+						<view class="score-words">综合评分 ：</view>
+						<view class="movie-score">{{trailerData.score}}</view>
+					</view>
+					<view class="score-starts">
+						<Rate :innerScore='trailerData.score' showNum=0></Rate>
+						<view class="prised-counts">{{trailerData.prisedCounts}} 人点赞</view>
+					</view>
+				
+				</view>
 			</view>
 		</view>
+		<view class="line-wrapper">
+			<view class="line"></view>
+		</view>
+		<view class="plot-block">
+			<view class="plots-title">剧情介绍</view>
+			<view class="plots-desc">{{trailerData.plotDesc}}</view>
+		</view>
+		
 	</view>
 </template>
 <script>
 	import common from '../../common/helper.js';
+	import Rate from '../../components/Rate/Rate.vue'
 	export default {
 		data() {
 			return {
-				trailerData: {}
+				trailerData: {},
+				isLoading:true,
+				plotArray:[],
+				directorArray:[],
+				actorArray:[]
 			}
+		},
+		components:{
+			Rate
 		},
 		onLoad(params) {
 			const serverUrl = common.serverUrl;
@@ -47,10 +73,45 @@
 				success: res => {
 					if (res.data.status == 200) {
 						this.trailerData = res.data.data;
+						let plotArray = JSON.parse(this.trailerData.plotPics);
+						this.plotArray = plotArray;
 					}
-					console.log(this.trailerData)
+					console.log(this.trailerData);
 				},
 				complete: () => {
+					this.isLoading = false;
+					uni.hideLoading();
+					uni.hideNavigationBarLoading();
+				}
+			})
+			//directors
+			uni.request({
+				url: serverUrl + `/search/staff/${params.trailerId}/1?qq=806212833`,
+				method: 'POST',
+				success: res => {
+					if (res.data.status == 200) {
+						this.directorArray = res.data.data;
+					}
+					console.log(this.directorArray);
+				},
+				complete: () => {
+					this.isLoading = false;
+					uni.hideLoading();
+					uni.hideNavigationBarLoading();
+				}
+			})
+			//actors
+			uni.request({
+				url: serverUrl + `/search/staff/${params.trailerId}/2?qq=806212833`,
+				method: 'POST',
+				success: res => {
+					if (res.data.status == 200) {
+						this.actorArray = res.data.data;
+					}
+					console.log(this.actorArray);
+				},
+				complete: () => {
+					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
 				}
