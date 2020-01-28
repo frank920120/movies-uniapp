@@ -4,7 +4,10 @@
 			<video :src="trailerData.trailer" :poster='trailerData.poster' controls class='movie' @play='play'></video>
 		</view>
 		<view class="movie-info">
-			<image :src="trailerData.cover" class='cover'></image>
+			<navigator :url="'../cover/cover?cover='+trailerData.cover">
+					<image :src="trailerData.cover" class='cover'></image>
+			</navigator>
+		
 			<view class="movie-desc">
 				<view class="title">
 					{{trailerData.name}}
@@ -128,7 +131,6 @@
 					console.log(this.directorArray);
 				},
 				complete: () => {
-					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
 				}
@@ -141,14 +143,19 @@
 					if (res.data.status == 200) {
 						this.actorArray = res.data.data;
 					}
-					console.log(this.actorArray);
 				},
 				complete: () => {
-					this.isLoading = false;
 					uni.hideLoading();
 					uni.hideNavigationBarLoading();
 				}
 			})
+		},
+		onShareAppMessage(res){
+			
+			return {
+				title:this.trailerData.name,
+				path:'/pages/movie/movie?trailerId ='+ this.trailerData.id
+			}
 		},
 		methods: {
 			play: function(e) {
