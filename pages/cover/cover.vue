@@ -11,12 +11,34 @@
 			}
 		},
 		methods: {
-			operator(){
+			operator() {
 				uni.showActionSheet({
-					itemList:["下载图片","aaa","ccc"],
-					success:function(res){
-						if(res.tapIndex==0){
-							console.log('download')
+					itemList: ["下载图片"],
+					success: res => {
+						if (res.tapIndex == 0) {
+							uni.showLoading({
+								title:"图片保存中..."
+							})
+							uni.downloadFile({
+								url:this.imageUrl,
+								success:function(result){
+									let tempFilePath = result.tempFilePath;
+									uni.saveImageToPhotosAlbum({
+										filePath:tempFilePath,
+										success:()=>{
+											uni.showToast({
+												title:'保存成功',
+												duration:2000
+											})
+										
+										},
+										complete:()=>{
+												uni.hideLoading();
+										}
+									})
+									
+								}
+							})
 						}
 					}
 				})
@@ -43,8 +65,8 @@
 		position: fixed;
 		z-index: 0;
 	}
-	.cover{
+
+	.cover {
 		z-index: 999;
 	}
-	
 </style>
