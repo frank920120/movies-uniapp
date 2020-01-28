@@ -1,6 +1,6 @@
 <template>
 	<view class='black'>
-		<image :src='imageUrl' class='cover' mode='widthFix'></image>
+		<image :src='imageUrl' class='cover' mode='widthFix' @longpress="operator"></image>
 	</view>
 </template>
 <script>
@@ -10,9 +10,19 @@
 				imageUrl: null
 			}
 		},
-		methods: {},
+		methods: {
+			operator(){
+				uni.showActionSheet({
+					itemList:["下载图片","aaa","ccc"],
+					success:function(res){
+						if(res.tapIndex==0){
+							console.log('download')
+						}
+					}
+				})
+			}
+		},
 		onLoad(params) {
-			console.log(params)
 			uni.setNavigationBarColor({
 				frontColor: '#ffffff',
 				backgroundColor: '#000000'
