@@ -1,7 +1,7 @@
 <template>
 	<view class="page" v-if='!isLoading'>
 		<view class='player'>
-			<video :src="trailerData.trailer" :poster='trailerData.poster' controls class='movie' @play='play'></video>
+			<video id='mytrailer' :src="trailerData.trailer" :poster='trailerData.poster' controls class='movie' @play='play'></video>
 		</view>
 		<view class="movie-info">
 			<navigator :url="'../cover/cover?cover='+trailerData.cover">
@@ -92,6 +92,17 @@
 		components: {
 			Rate
 		},
+		onReady(){
+			this.videoContext = uni.createVideoContext('mytrailer')
+		},
+		onHide(){
+			this.videoContext.pause()
+		},
+		onShow(){
+			if(this.videoContext){
+				this.videoContext.play()
+			}
+		},
 		onLoad(params) {
 			uni.setNavigationBarColor({
 				frontColor:'#ffffff',
@@ -179,7 +190,7 @@
 		methods: {
 			play: function(e) {
 				let currentVideo = uni.createVideoContext(e.currentTarget.id);
-				currentVideo.requestFullScreen();
+				// currentVideo.requestFullScreen();
 			},
 			previewHandle:function(index){
 				uni.previewImage({
