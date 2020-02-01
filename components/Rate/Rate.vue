@@ -1,7 +1,7 @@
 <template>
 	<view class="movie-score-wrapper">
 		<image src="../../static/icos/star-yellow.png" class="star-icon" v-for="(star,index) in yellowScore" ></image>
-		<image src="../../static/icos/star-gray.png" class="star-icon" v-for="(star,index) in grayScore" ></image>
+		<image src="../../static/icos/star-gray.png" class="star-icon" v-for="(star,index) in grayScore"></image>
 		<view class="movie-score" v-if="showNum == 1">9.1</view>
 	</view>
 </template>
