@@ -150,12 +150,31 @@
 				}
 			})
 		},
-		onShareAppMessage(res){
-			
+		onShareAppMessage(res){	
 			return {
 				title:this.trailerData.name,
 				path:'/pages/movie/movie?trailerId ='+ this.trailerData.id
 			}
+		},
+		onNavigationBarButtonTap(e){
+			let {index} = e;
+			let trailerData = this.trailerData;
+			let {id,name,cover,poster} = trailerData;
+			if(index==0){
+				uni.share({
+				    provider: "weixin",
+				    scene: "WXSceneTimeline",
+				    type: 0,
+				    href: "https://localhost:8080/#/pages/movie/movie?trailerId="+id,
+				    title: `电影预告:<${name}>`,
+				    summary:  `电影预告:<${name}>`,
+				    imageUrl: cover,
+				    success: function (res) {
+				        console.log("success:" + JSON.stringify(res));
+				    }
+				});
+			}	
+			
 		},
 		methods: {
 			play: function(e) {
