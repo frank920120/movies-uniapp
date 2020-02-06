@@ -53,14 +53,33 @@
 </template>
 
 <script>
+	import common from '../../common/helper.js';
 	export default {
 		data() {
 			return {
-				
+				userInfo:null
 			}
 		},
 		methods: {
-			
+			formSubmit(e){
+				let {username,password} = e.detail.value;
+				let serverUrl = common.serverUrl;
+			uni.request({
+				url:serverUrl + '/user/registOrLogin?qq=806212833',
+				data:{
+					"username":username,
+					"password":password
+				},
+				method:'POST',
+				success:res=>{
+					if(res.data.status == 200){
+						let userInfo  = res.data.data;
+						this.userInfo = userInfo;
+						console.log(this.userInfo)
+					}
+				}
+			})
+			}
 		}
 	}
 </script>
