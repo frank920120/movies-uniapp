@@ -15,7 +15,7 @@
 						<view class="nav-info">ID：{{userInfo.id}}</view>
 					</view>
 					<view v-else>
-						<navigator url="../registLogin/registLogin">
+						<navigator url="../registerLogin/registerLogin">
 							<view class="nickname regist-login">
 								注册/登录
 							</view>
@@ -38,13 +38,21 @@
 		data() {
 			return {
 				userIsLogin:false,
-				userInfo:{
-					
-				}
+				userInfo:{}
 			}
 		},
 		methods: {
 			
+		},
+		onShow(){
+			let userInfo = uni.getStorageSync("globalUser");
+			if(userInfo !=null && userInfo != undefined){
+				this.userIsLogin = true;
+				this.userInfo = userInfo
+			}else{
+				this.userIsLogin = false;
+				this.userInfo = {}
+			}
 		}
 	}
 </script>
