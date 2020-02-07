@@ -94,6 +94,7 @@
 </template>
 
 <script>
+	import common from '../../common/helper.js';
 	export default {
 		data() {
 			return {
@@ -101,11 +102,34 @@
 			}
 		},
 		onShow(){
-		let userInfor=uni.getStorageSync('globalUser');
-		this.globalUser = userInfor;
+		let userInfo=uni.getStorageSync('globalUser');
+		this.globalUser = userInfo
+		console.log(userInfo)
 		},
 		methods: {
-			
+			cleanStorage(){
+				uni.clearStorageSync();
+				uni.showToast({
+					title:'清理缓存成功',
+					mask:false,
+					duration:1500
+				})
+			},
+			logout(){
+			 let serverUrl = common.serverUrl;
+				uni.request({
+					url: serverUrl + `/user/logout?userId=${this.globalUser.id}&&qq=806212833`,
+					method:'POST',
+					success:res=>{
+						if(res.data.status==200){
+							uni.removeStorageSync('globalUser')
+							uni.redirectTo({
+								url:'../registerLogin/registerLogin'
+							})
+						}
+					}
+				})
+			}
 		}
 	}
 </script>
